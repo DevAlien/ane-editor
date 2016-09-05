@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React App</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=latin-ext" >
+    <style>
+.ane-image {    
+
+    line-height: 20px;
+    margin: 0;
+    display:inline-block;
+    position:relative;
+}
+
+.ane-image .header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(10,10,10,0.5);
+  color: white;
+  height: 40px;
+  padding: 8px;
+}
+.ane-image .header .controls-container {
+  overflow: auto;
+}
+.ane-image .header .controls {
+    color: #FFF;
+    float: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.ane-image .header .controls li {
+      display: inline-block;
+    padding: 6px 8px;
+    line-height: 40px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0;
+    
+}
+.ane-image .header span {
+  opacity: 1;
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Dropdown-root {
+  position: absolute;
+}
+
+.Dropdown-control {
+  position: relative;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #333;
+  cursor: default;
+  outline: none;
+  padding: 8px 52px 8px 10px;
+  transition: all 200ms ease;
+}
+
+.Dropdown-control:hover {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.Dropdown-arrow {
+  border-color: #999 transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  content: ' ';
+  display: block;
+  height: 0;
+  margin-top: -ceil(2.5);
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  width: 0
+}
+
+.is-open .Dropdown-arrow {
+  border-color: transparent transparent #999;
+  border-width: 0 5px 5px;
+}
+.Dropdown-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-top: -1px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  z-index: 1000;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Dropdown-menu .Dropdown-group > .Dropdown-title{
+  padding: 8px 10px;
+  color: rgba(51, 51, 51, 1);
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.Dropdown-option {
+  box-sizing: border-box;
+  color: rgba(51, 51, 51, 0.8);
+  cursor: pointer;
+  display: block;
+  padding: 8px 10px;
+}
+
+.Dropdown-option:last-child {
+  border-bottom-right-radius: 2px;
+   border-bottom-left-radius: 2px;
+}
+
+.Dropdown-option:hover {
+  background-color: #f2f9fc;
+  color: #333;
+}
+
+.Dropdown-option.is-selected {
+  background-color: #f2f9fc;
+  color: #333;
+}
+
+.Dropdown-noresults {
+  box-sizing: border-box;
+  color: #ccc;
+  cursor: default;
+  display: block;
+  padding: 8px 10px;
+}
+
+
+    </style>
+    <style>
+    .react-resizable {
+  position: relative;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 0;
+  right: 0;
+  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize;
+}
+html,
+input,
+textarea {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.4;
+  background: #b7b7b7;
+}
+
+body {
+  margin: 0;
+}
+
+
+pre {
+  padding: 10px;
+  background-color: #eee;
+  white-space: pre-wrap;
+}
+
+img {
+  max-width: 100%;
+  max-height: 20em;
+}
+
+img.active {
+  box-shadow: 0 0 0 2px blue;
+}
+
+blockquote {
+  border-left: 2px solid #ddd;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 10px;
+  color: #aaa;
+  font-style: italic;
+}
+
+blockquote[dir="rtl"] {
+  border-left: none;
+  padding-left: 0;
+  padding-right: 10px;
+  border-right: 2px solid #ddd;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding: 10px;
+  border: 2px solid #ddd;
+}
+
+input {
+  font-size: .85em;
+  width: 100%;
+  padding: .5em;
+  border: 2px solid #ddd;
+  background: #fafafa;
+}
+
+input:focus {
+  outline: 0;
+  border-color: blue;
+}
+
+/**
+ * Icons.
+ */
+
+.material-icons {
+  font-size: 18px;
+}
+
+/**
+ * App.
+ */
+
+.tabs {
+  padding: 20px;
+  background-color: #222;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.tab {
+  color: #777;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.tab + .tab {
+  margin-left: 30px;
+}
+
+.tab.active {
+  color: white;
+}
+
+/**
+ * Example.
+ */
+
+.example {
+  max-width: 42em;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
+}
+
+.editor > * > * + * {
+  margin-top: 1em;
+}
+
+.menu > * {
+  display: inline-block;
+}
+
+.menu > * + * {
+  margin-left: 10px;
+}
+
+.button {
+  color: #ccc;
+  cursor: pointer;
+}
+
+.button[data-active="true"] {
+  color: black;
+}
+
+.toolbar-menu {
+  padding: 1px 0 17px 18px;
+  margin: 0 -20px;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
+}
+
+.hover-menu {
+  padding: 8px 7px 6px;
+  position: absolute;
+  z-index: 1;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  opacity: 0;
+  background-color: #222;
+  border-radius: 4px;
+  transition: opacity .75s;
+}
+
+.hover-menu .button {
+  color: #aaa;
+}
+
+.hover-menu .button[data-active="true"] {
+  color: #fff;
+}
+
+
+
+
+
+
+
+.side-menu {
+  display: none;
+    position: absolute;
+    height: 18px;
+}
+
+
+.aneeditor {
+    cursor: text;
+    padding: 16px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    box-shadow: inset 0 1px 8px -3px #ababab;
+    background: #fefefe;
+}
+
+.cover {
+  background: black;
+    opacity: 0.4;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 33px;
+    text-align: center;
+    padding-top: 40%;
+    color: blueviolet;
+}</style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` in this folder.
+      To create a production bundle, use `npm run build`.
+    -->
+  </body>
+</html>
